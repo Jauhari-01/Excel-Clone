@@ -4,11 +4,25 @@ body{
 
 table{
     border-collapse: collapse;
-    width: auto;
+    width: 1800px;
     overflow-x: auto;
 }
 
 th,td{
     width: 80px;
     border: 1px solid black;
+}
+
+td:focus{
+    outline: none;
+}
+
+#bold{
+    font-weight: bold;
+}
+#italics{
+    font-style: italic;
+}
+#underline{
+    text-decoration: underline;
 }
