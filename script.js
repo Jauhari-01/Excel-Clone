@@ -14,6 +14,7 @@ const fontColorInput = document.getElementById('text-color');
 const copyContentbtn = document.getElementById('copyContent');
 const cutContentbtn = document.getElementById('cutContent');
 const pasteContentbtn = document.getElementById('pasteContent');
+const uploadFile = document.getElementById('jsonFile');
 
 const columns = 26;
 const rows = 100;
@@ -189,9 +190,39 @@ function downloadJson(){
 
     // now i need to create a dynamic link
     const link = document.createElement('a');
+    // link.setAttribute('download','true');
+    link.download = 'table.json';
     link.href = URL.createObjectURL(blob);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+
+//upload file
+uploadFile.addEventListener('change',uploadFileJsonFn);
+function uploadFileJsonFn(event){
+    const file = event.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function(e){
+            const fileContent = e.target.result;
+            try{
+                matrix = JSON.parse(fileContent);
+                matrix.forEach(row=>{
+                    row.forEach(cell=>{
+                        if(cell.id){
+                            let cellToBeEdited = document.getElementById(cell.id);
+                            cellToBeEdited.innerText = cell.text;
+                            cellToBeEdited.style.cssText = cell.style;
+                        }
+                    })
+                })
+            }catch(err){
+                console.log(err);
+            }
+        }
+    }
 }
 
