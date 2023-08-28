@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="./style.css">
     <title>Excel Sheet</title>
 </head>
@@ -10,6 +11,64 @@
     <button id="bold">B</button>
     <button id="italics">I</button>
     <button id="underline">U</button>
+    <select id="font-size">
+        <option value="14px">14</option>
+        <option value="16px">16</option>
+        <option value="18px">18</option>
+        <option value="20px">20</option>
+        <option value="22px">22</option>
+        <option value="24px">24</option>
+        <option value="26px">26</option>
+        <option value="28px">28</option>
+        <option value="30px">30</option>
+        <option value="32px">32</option>
+    </select>
+    <select id="font-style">
+        <option value="serif">Serif</option>
+        <option value="sans-serif">Sans Serif</option>
+        <option value="cursive">Cursive</option>
+        <option value="monospace">Monospace</option>
+    </select>
+    <br>
+    <button id="copyContent">
+        <span class="material-symbols-outlined">
+            content_copy
+        </span>
+    </button>
+    <button id="cutContent">
+        <span class="material-symbols-outlined">
+            content_cut
+        </span>
+    </button>
+    <button id="pasteContent"><span class="material-symbols-outlined">
+        content_paste
+    </span></button>
+    <br>
+    <button id="left-align">
+        <span class="material-symbols-outlined">
+            format_align_left
+        </span>
+    </button>
+    <button id="center-align">
+        <span class="material-symbols-outlined">
+            format_align_center
+        </span>
+    </button>
+    <button id="right-align">
+        <span class="material-symbols-outlined">
+            format_align_right
+        </span>
+    </button>
+    <button id="justify-align">
+        <span class="material-symbols-outlined">
+            format_align_justify
+        </span>
+    </button>
+    <br>
+    <label for="bg-color">Bg-Color</label>
+    <input type="color" id="bg-color">
+    <label for="text-color">Text-Color</label>
+    <input type="color" id="text-color">
     <table id="my-table">
         <thead>
             <tr id="table-heading-row">

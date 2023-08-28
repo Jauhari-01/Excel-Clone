@@ -3,12 +3,26 @@ const tBody = document.getElementById('table-body');
 const boldButton = document.getElementById('bold');
 const italicsButton = document.getElementById('italics');
 const underLineButton = document.getElementById('underline');
+const leftAlignBtn = document.getElementById('left-align');
+const centerAlignBtn = document.getElementById('center-align');
+const rightAlignBtn = document.getElementById('right-align');
+const justifyAlignBtn = document.getElementById('justify-align');
+const fontSizeDropDown = document.getElementById('font-size');
+const fontStyleDropDown = document.getElementById('font-style');
+const bgColorInput = document.getElementById('bg-color');
+const fontColorInput = document.getElementById('text-color');
+const copyContentbtn = document.getElementById('copyContent');
+const cutContentbtn = document.getElementById('cutContent');
+const pasteContentbtn = document.getElementById('pasteContent');
 
 const columns = 26;
 const rows = 100;
 
 //
 let currentCell;
+let copyObj = {
+
+}
 
 
 //table related stuff
@@ -59,4 +73,60 @@ italicsButton.addEventListener('click',()=>{
 //underline button
 underLineButton.addEventListener('click',()=>{
     currentCell.style.textDecoration = currentCell.style.textDecoration === 'underline' ? 'none':'underline';
+})
+
+//Align content related functions
+leftAlignBtn.addEventListener('click',()=>{
+    currentCell.style.textAlign = currentCell.style.textAlign === 'left' ? 'none':'left';
+})
+centerAlignBtn.addEventListener('click',()=>{
+    currentCell.style.textAlign = currentCell.style.textAlign === 'center' ? 'left':'center';
+})
+rightAlignBtn.addEventListener('click',()=>{
+    currentCell.style.textAlign = currentCell.style.textAlign === 'right' ? 'left':'right';
+})
+justifyAlignBtn.addEventListener('click',()=>{
+    currentCell.style.textAlign = currentCell.style.textAlign === 'justify' ? 'left':'justify';
+})
+
+
+// /Related with styling of font
+//changing font size
+fontSizeDropDown.addEventListener('change',()=>{
+    currentCell.style.fontSize = fontSizeDropDown.value;
+});
+
+//font family
+fontStyleDropDown.addEventListener('change',()=>{
+    currentCell.style.fontFamily = fontStyleDropDown.value;
+});
+
+//bg color
+bgColorInput.addEventListener('input',()=>{
+    currentCell.style.backgroundColor = bgColorInput.value;
+})
+//font color
+fontColorInput.addEventListener('input',()=>{
+    currentCell.style.color = fontColorInput.value;
+})
+
+
+//Cut Copy Paste functionalities
+copyContentbtn.addEventListener('click',()=>{
+    copyObj ={
+        style : currentCell.style.cssText,
+        text : currentCell.innerText
+    }
+})
+cutContentbtn.addEventListener('click',()=>{
+    copyObj ={
+        style : currentCell.style.cssText,
+        text : currentCell.innerText
+    }
+    currentCell.style.cssText = "";
+    currentCell.innerText = '';
+})
+pasteContentbtn.addEventListener('click',()=>{
+    currentCell.style.cssText = copyObj.style;
+    currentCell.innerText = copyObj.text;
 })
