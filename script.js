@@ -15,11 +15,15 @@ const copyContentbtn = document.getElementById('copyContent');
 const cutContentbtn = document.getElementById('cutContent');
 const pasteContentbtn = document.getElementById('pasteContent');
 const uploadFile = document.getElementById('jsonFile');
+const addSheetButton = document.getElementById('add-sheet-btn');
+const sheetContainer = document.getElementById('sheet-button-container'); 
 
 const columns = 26;
 const rows = 100;
 
 //
+let numOfSheets = 1;
+let currentSheetNo = 1;
 let currentCell;
 let copyObj = {}
 let cutPres = false;
@@ -78,6 +82,16 @@ function updateMatrix(currentCell){
     matrix[row][col] = tempObj;
 }
 
+
+//sheet related functions
+addSheetButton.addEventListener('click',()=>{
+    let btn = document.createElement('button');
+    numOfSheets++;
+    currentSheetNo = numOfSheets;
+    btn.innerText=`Sheet${numOfSheets}`;
+    btn.setAttribute('id',`Sheet${numOfSheets}`);
+    sheetContainer.appendChild(btn);
+})
 
 //functions for editing
 
