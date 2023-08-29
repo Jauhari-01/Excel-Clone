@@ -30,13 +30,15 @@ let cutPres = false;
 let matrix = new Array(rows);
 
 //creating matrix for daunload
-for(let row = 0 ; row < rows ; row++){
-    matrix[row] = new Array(columns);
-    for(let col = 0 ; col < columns ; col++){
-        matrix[row][col] = {};
+function createMatrixFn(){
+    for(let row = 0 ; row < rows ; row++){
+        matrix[row] = new Array(columns);
+        for(let col = 0 ; col < columns ; col++){
+            matrix[row][col] = {};
+        }
     }
 }
-
+createMatrixFn();
 // console.log(matrix);
 
 //table related stuff
@@ -46,22 +48,26 @@ for(let col=0 ; col < columns  ; col++){
     tHeadRow.appendChild(th);
 }
 
-for(let row = 1 ; row<=rows ; row++){
-    let tr = document.createElement('tr');
-    let th = document.createElement('th');
-
-    th.innerText = row;
-    tr.appendChild(th);
-    for(let col=0 ; col < columns  ; col++){
-        let td = document.createElement('td');
-        td.setAttribute('contenteditable','true');
-        td.setAttribute('id',`${String.fromCharCode(col+65)}${row}`)
-        td.addEventListener('focus',(event)=>onFocusFn(event));
-        td.addEventListener('input',(event)=>onChangeFn(event));
-        tr.appendChild(td);
+function tableBodyGenrationFn(){
+    for(let row = 1 ; row<=rows ; row++){
+        let tr = document.createElement('tr');
+        let th = document.createElement('th');
+    
+        th.innerText = row;
+        tr.appendChild(th);
+        for(let col=0 ; col < columns  ; col++){
+            let td = document.createElement('td');
+            td.setAttribute('contenteditable','true');
+            td.setAttribute('id',`${String.fromCharCode(col+65)}${row}`)
+            td.addEventListener('focus',(event)=>onFocusFn(event));
+            td.addEventListener('input',(event)=>onChangeFn(event));
+            tr.appendChild(td);
+        }
+        tBody.append(tr);
     }
-    tBody.append(tr);
 }
+tableBodyGenrationFn();
+
 
 function onFocusFn(event){
     currentCell = event.target;
@@ -84,13 +90,32 @@ function updateMatrix(currentCell){
 
 
 //sheet related functions
+//arrMatrix ---[matrix1,matrix2,matrix3]
 addSheetButton.addEventListener('click',()=>{
     let btn = document.createElement('button');
     numOfSheets++;
     currentSheetNo = numOfSheets;
     btn.innerText=`Sheet${numOfSheets}`;
     btn.setAttribute('id',`Sheet${numOfSheets}`);
+    btn.setAttribute('onClick','viewSheet(event)')
     sheetContainer.appendChild(btn);
+    if(localStorage.getItem('arrMatrix')){
+        let oldMatrixArr = localStorage.getItem('arrMatrix');
+        let newMatrixArr = [...JSON.parse(oldMatrixArr),matrix];
+        localStorage.setItem('arrMatrix',JSON.stringify(newMatrixArr));
+        console.log('old MAtrix ',newMatrixArr);
+    }else{
+        let tempMatArr = [matrix];
+        localStorage.setItem('arrMatrix',JSON.stringify(tempMatArr));
+        console.log('new MAtrix ',tempMatArr);
+    }
+
+    //clearning virtual memory
+    createMatrixFn();
+
+    document.getElementById('sheet-no-header').innerText = "Sheet No - "+currentSheetNo;
+    tBody.innerHTML='';
+    tableBodyGenrationFn();
 })
 
 //functions for editing
@@ -238,5 +263,32 @@ function uploadFileJsonFn(event){
             }
         }
     }
+}
+
+
+//view sheet event callback
+function viewSheet(event){
+    // console.log(event.target);
+    let id = event.target.id.charAt(5);
+    // console.log(id);
+
+    let matrixArr = JSON.parse(localStorage.getItem('arrMatrix'));
+    
+    matrix = matrixArr[id-1];
+    tBody.innerHTML='';
+    tableBodyGenrationFn();
+    console.log(matrix);
+    matrix.forEach(row =>{
+        row.forEach(cell =>{
+            if(cell.id){
+                let cellToBeEdited = document.getElementById(cell.id);
+                cellToBeEdited.innerText = cell.text;
+                cellToBeEdited.style.cssText = cell.style;
+            }
+        })
+    })
+
+    document.getElementById('sheet-no-header').innerText = "Sheet No - "+id;
+    
 }
 
